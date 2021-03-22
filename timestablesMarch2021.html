@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Times Tables App(Beta)</title>
+        <meta charset="utf-8" ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta>
+        <link href="css/ttdrills%20_css2.6.css" rel="stylesheet" type="text/css">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+    
+            body {
+                background-image: url(../img/geometry-1023846_1920.jpg);
+                background-size: cover;
+            }
+    
+            #maindiv {
+                background-color: white;
+                min-height: 98vh;
+                height: auto;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                border: 2px solid grey;
+                border-radius: 20px;
+                padding-bottom: 20px;
+                touch-action: manipulation;
+            }
+    
+            #maindiv.flashGreen {
+                background-color: lightgreen;
+    
+            }
+    
+            #maindiv.flashRed {
+                background-color: #FFB6C1;
+    
+            }
+    
+            #appTitle {
+                /*			display: none;*/
+                height: 30px;
+                width: 100%;
+                margin-top: 2px;
+                margin-bottom: 5px;
+    
+            }
+    
+            #checkBoxInstructions {
+                margin: 0 0 5px 0;
+            }
+    
+            #bigCalcDiv {
+                /*			display: none;*/
+                height: 30px;
+                width: 100%;
+                display: inline-flex;
+            }
+    
+            #bigNumberDisplayL,
+            #bigNumberDisplayR {
+    
+                width: 45%;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                height: 30px;
+            }
+    
+            #timesSymbol,
+            h1,
+            p {
+                vertical-align: middle;
+                margin: 2px;
+                height: auto;
+                font-size: 1.5rem;
+            }
+    
+            .bigNumberButton {
+                /*            display: inline-block;*/
+                font-size: 1rem;
+                width: 60%;
+                border-radius: 50px;
+                border: 2px solid black;
+            }
+    
+            #labelfortoggleChecks {
+                font-size: 1.2rem;
+            }
+    
+            #inputBox {
+                margin: 5px auto 0 auto;
+                width: 40%;
+                line-height: 2rem;
+                font-size: 2rem;
+                text-align: center;
+            }
+    
+            #currentCalculationBar {
+                margin: 5px 5px;
+                font-size: 1.2rem;
+            }
+    
+            #instructions {
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+    
+            #resultBar {
+                border: 2px solid black;
+                border-radius: 20px;
+                width: 90%;
+                height: auto;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+    
+            #infoBar {
+                border: 2px solid black;
+                border-radius: 10px;
+                width: 90%;
+                height: 90px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                vertical-align: middle;
+                font-size: 1.2rem;
+            }
+    
+            #scoreDiv {
+                width: 90%;
+                display: inline-flex;
+            }
+    
+            #scoreBar {
+                width: 40%;
+                float: left;
+                margin-top: 2px;
+            }
+    
+            #percentBar {
+                width: 20%;
+                margin-top: 2px;
+            }
+    
+            #errorBar {
+                width: 40%;
+                float: right;
+                margin-top: 2px;
+            }
+    
+    
+            .padRow {
+                /*			display: inline;*/
+                width: 100%;
+                max-height: 43px;
+                vertical-align: top;
+            }
+    
+            .padButton {
+                font-size: 2rem;
+                width: 30%;
+                border-radius: 20px;
+                border: 2px solid black;
+                box-shadow: 0 5px #999;
+                cursor: pointer;
+    
+            }
+    
+            .padButton:active {
+                background-color: #6e6e6e;
+                color: white;
+                box-shadow: 0 2px #666;
+                transform: translateY(4px);
+    
+            }
+    
+            #padDel {
+                background-color: red;
+                text-align: center;
+                height: 43px;
+                font-size: 1rem;
+                line-height: 3rem;
+                padding-bottom: 10px;
+            }
+    
+            #padSubmit {
+                background-color: green;
+                text-align: center;
+                height: 43px;
+                font-size: 1rem;
+                line-height: 3rem;
+            }
+    
+            #padZero {
+                text-align: center;
+                height: 43px;
+                font-size: 2rem;
+                line-height: 2rem;
+            }
+    
+            a {
+                text-decoration: none;
+            }
+    
+            /*--------------------------------------Meida Query-----------------------------------------*/
+            @media only screen and (min-width: 768px) {
+    
+                /* For PCs */
+                #maindiv {
+                    width: 70%;
+    
+                }
+    
+                #currentCalculationBar {
+                    margin: 5px 5px;
+                    font-size: 1.5rem;
+                }
+    
+            }
+    
+        </style>
+        <script>
+        </script>
+    
+    </head>
+    
+    <body>
+        <div id="maindiv" class="">
+            <h3 id="appTitle">Times Tables App 2.0</h3>
+            <section id="startUpDiv">
+    
+                <h3 id="checkBoxInstructions">Check the numbers that you want to use then click start</h3>
+    
+                <form id="checkBoxForm" method="">
+    
+                    <div>
+                        <input class="selectTT" type="checkbox" name="2tt" value="2">
+                        <label for="vehicle2">2</label>
+    
+                        <input class="selectTT" type="checkbox" name="3tt" value="3">
+                        <label for="vehicle3">3</label>
+    
+                        <input class="selectTT" type="checkbox" name="4tt" value="4">
+                        <label for="vehicle3">4</label>
+    
+                        <input class="selectTT" type="checkbox" name="5tt" value="5">
+                        <label for="vehicle3">5</label>
+    
+                        <input class="selectTT" type="checkbox" name="6tt" value="6" checked>
+                        <label for="vehicle1">6</label>
+    
+                        <input class="selectTT" type="checkbox" name="7tt" value="7" checked>
+                        <label for="vehicle2">7</label>
+    
+                        <input class="selectTT" type="checkbox" name="8tt" value="8" checked>
+                        <label for="vehicle3">8</label>
+    
+                        <input class="selectTT" type="checkbox" name="9tt" value="9" checked>
+                        <label for="vehicle3">9</label>
+                    </div>
+                    <div>
+                        <input class="selectTT" type="checkbox" name="10tt" value="10">
+                        <label for="vehicle3">10</label>
+    
+                        <input class="selectTT" type="checkbox" name="11tt" value="11" checked>
+                        <label for="vehicle1">11</label>
+    
+                        <input class="selectTT" type="checkbox" name="12tt" value="12" checked>
+                        <label for="vehicle2">12</label>
+    
+                        <input class="selectTT" type="checkbox" name="13tt" value="13">
+                        <label for="vehicle3">13</label>
+    
+                        <input class="selectTT" type="checkbox" name="14tt" value="14">
+                        <label for="vehicle3">14</label>
+    
+                        <input class="selectTT" type="checkbox" name="15tt" value="15">
+                        <label for="vehicle3">15</label>
+                    </div>
+                </form>
+    
+                <label id="labelfortoggleChecks" for="toggleChecks">uncheck/check all</label>
+                <input id="toggleCheckButton" name="toggleChecks" type="checkbox" onchange="toggleCheckBoxes()" checked>
+                <button id="startButton" onclick="GetRanNum(), getfocus()">Start</button>
+                <br>
+            </section>
+    
+    
+            <div id="bigCalcDiv">
+    
+                <div id="bigNumberDisplayL">
+                    <button type="number" id="bigNumberButtonL" class="bigNumberButton"> </button>
+                </div>
+    
+                <div id="timesSymbol">
+                    <p style=""> &times </p>
+                </div>
+    
+                <div id="bigNumberDisplayR">
+                    <button type="number" id="bigNumberButtonR" class="bigNumberButton"> </button>
+    
+                </div>
+    
+            </div>
+    
+            <h4 id="currentCalculationBar">...</h4>
+    
+            <input type="text" id="inputBox" onkeypress="return CheckKeyDown(event)">
+            <br>
+            <br>
+    
+            <div id="padRowBox">
+                <div class="padRow">
+                    <button id="pad7" value="7" class="padButton" onclick="padAsInput(this.value)"> 7</button>
+                    <button id="pad8" value="8" class="padButton" onclick="padAsInput(this.value)"> 8</button>
+                    <button id="pad9" value="9" class="padButton" onclick="padAsInput(this.value)"> 9</button></div><br>
+    
+                <div class="padRow">
+                    <button id="pad4" value="4" class="padButton" onclick="padAsInput(this.value)"> 4</button>
+                    <button id="pad5" value="5" class="padButton" onclick="padAsInput(this.value)"> 5</button>
+                    <button id="pad6" value="6" class="padButton" onclick="padAsInput(this.value)"> 6</button></div><br>
+    
+                <div class="padRow">
+                    <button id="pad1" value="1" class="padButton" onclick="padAsInput(this.value)"> 1</button>
+                    <button id="pad2" value="2" class="padButton" onclick="padAsInput(this.value)"> 2</button>
+                    <button id="pad3" value="3" class="padButton" onclick="padAsInput(this.value)"> 3</button></div><br>
+    
+                <div class="padRow"><span style="max-height: 43px;">
+                        <button id="padDel" value="Del" class="padButton" onclick="deleteButton()">Del</button>
+                        <button id="pad0" value="0" class="padButton" onclick="padAsInput(this.value)"> 0</button>
+                        <button id="padSubmit" value="Sub" class="padButton" onclick="CheckAnswer()"> Enter</button></span></div>
+            </div>
+            <div>
+                <h4 id="resultBar">Do you know the answer?</h4>
+                <h4 id="infoBar">---------Info Bar---------</h4>
+    
+                <div id="scoreDiv">
+                    <h4 id="scoreBar"></h4>
+                    <h4 id="percentBar"></h4>
+                    <h4 id="errorBar"></h4>
+                </div>
+    
+            </div>
+    
+    
+        </div>
+    
+        <script>
+            document.getElementById("bigCalcDiv").style = "display:none";
+            document.getElementById("currentCalculationBar").style = "display:none";
+            document.getElementById("inputBox").disabled = true;
+            // document.getElementById("padSubmit").disabled = true;
+            var padButtonCollection = document.getElementsByClassName("padButton")
+    
+            for (i = 0; i < padButtonCollection.length; i++) {
+                var individualPadButton = padButtonCollection[i];
+                individualPadButton.disabled = true;
+            }
+    
+    
+            var score = 0;
+            var errors = 0;
+    
+            //GetRanNum();
+    
+            document.getElementById("scoreBar").innerText = "Correct answers this session: " + score;
+            document.getElementById("errorBar").innerText = "Errors this session: " + errors;
+    
+            //--------------------Interactive Button Section--------------------//
+    
+            //----------------Declaring all Pad Values-------------------------//
+    
+            var Pad0Value = parseInt(document.getElementById("pad0").value);
+            var PadSubmitValue = document.getElementById("padSubmit").value;
+    
+            //      - - - - - - -Check Pad Value- - - - - - -
+    
+    
+    
+            function getfocus() { // The input box is given focus so the user can input their answer.
+                if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    document.getElementById("inputBox").focus();
+                }
+                //      - - - - -Prevent zoom in to input box when focus is called- - - - -
+    
+                var scale = 'scale(1)';
+                document.body.style.webkitTransform = scale; // Chrome, Opera, Safari
+                document.body.style.msTransform = scale; // IE 9
+                document.body.style.transform = scale;
+            }
+    
+            getfocus();
+    
+            function padAsInput(ChosenPV) {
+                //		alert(ChosenPV);
+    
+                document.getElementById("inputBox").value += ChosenPV;
+            }
+    
+            function deleteButton() {
+                document.getElementById("inputBox").value = null;
+    
+            }
+    
+            function toggleCheckBoxes() {
+                //alert("I have just changed");
+                var checkBoxCollection = document.getElementsByClassName("selectTT");
+                if (document.getElementById("toggleCheckButton").checked == false) {
+    
+                    for (i = 0; i < checkBoxCollection.length; i++) {
+                        checkBoxCollection[i].checked = false;
+                    }
+    
+                    //                if (document.getElementById("unCheckButton").checked == true)
+                } else {
+                    for (j = 0; j < checkBoxCollection.length; j++) {
+                        checkBoxCollection[j].checked = true;
+                    }
+                }
+            }
+    
+            function enablePadButtons() {
+                var padButtonCollection = document.getElementsByClassName("padButton")
+    
+                for (i = 0; i < padButtonCollection.length; i++) {
+                    var individualPadButton = padButtonCollection[i];
+                    individualPadButton.disabled = false;
+                }
+    
+                document.getElementById("inputBox").disabled = false;
+            }
+    
+            function GetRanNum() { //This creates the two random numbers.
+                //alert("I am from the GetRanNum Function");
+    
+                var selectionCollection = document.getElementsByClassName("selectTT");
+                var selectionArray = [];
+    
+                //alert(selectionCollection[0].value);
+    
+                for (i = 0; i < selectionCollection.length; i++) {
+                    var checkbox = selectionCollection[i];
+                    if (checkbox.checked) {
+                        selectionArray.push(checkbox.value);
+    
+                    }
+                }
+    
+                if (selectionArray.length <= 0) {
+                    alert("You must check at least 1 number to practise");
+    
+                } else {
+                    enablePadButtons();
+                    
+                    console.log("selectionArray length is " + selectionArray.length);
+                    console.log("This is the selectionArray " + selectionArray);
+    
+                    document.getElementById("currentCalculationBar").style.display = "block";
+                    document.getElementById("startUpDiv").style.display = "none";
+    
+                    var randomBetweenArrayLength = Math.floor(Math.random() * selectionArray.length);
+                    console.log("Number Between Array Length aka index = " + randomBetweenArrayLength);
+                    var RandomNumberFromSelectedArray = selectionArray[randomBetweenArrayLength];
+                    console.log("Random Number from selected Array = " + selectionArray[randomBetweenArrayLength]);
+                    var randomNumberBetween1and12 = Math.ceil(Math.random() * 12);
+                    console.log("Number Between 1 and 12 = " + randomNumberBetween1and12);
+                    console.log("------Done------");
+    
+                    document.getElementById("bigNumberButtonL").innerText = RandomNumberFromSelectedArray;
+                    document.getElementById("bigNumberButtonR").innerText = randomNumberBetween1and12;
+    
+                    document.getElementById("currentCalculationBar").innerHTML = "Current calculation: " + RandomNumberFromSelectedArray + " &times " + randomNumberBetween1and12 + ".<br>";
+    
+                    document.getElementById("bigCalcDiv").style = "display:none";
+                }
+            }
+    
+            function CheckKeyDown(evt) {
+    
+                var charcode = evt.which;
+                if (charcode > 31 && (charcode < 48 || charcode > 57))
+                    return false;
+    
+                return true;
+            }
+    
+            awaitKeyUp();
+    
+            function awaitKeyUp() {
+    
+    
+                //            alert("Give answer then press enter");
+                //IBV = null;
+                var input = document.getElementById("inputBox");
+                //input.addEventListener("onkeypress", CheckKeyDown(event))
+    
+    
+                input.addEventListener("keyup", function(event) { //JavaScript listens for the Enter Key-Up moment/event.
+    
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+    
+    
+    
+                        CheckAnswer(); //The key up triggers or simulates the submitButton function which is actually the check answer function.
+                    }
+                });
+            }
+    
+            //-------------Checking Answer Section-------------------------//
+    
+            function CheckAnswer() { //IBV short for Input Box Value :)
+    
+    
+    
+    
+                var IBV = document.getElementById("inputBox").value;
+    
+                if (isNaN(IBV) || IBV === "") //Deny angle brackets
+                {
+                    alert("You must enter a valid answer to continue playing!");
+                } else {
+    
+                    var IBV = parseInt(IBV);
+                    //alert(typeof IBV);
+    
+                    //			alert(IBV); //Trouble shooting
+                    LeftNumber = document.getElementById("bigNumberButtonL").innerHTML;
+                    LatestRan2 = document.getElementById("bigNumberButtonR").innerHTML;
+                    //            alert(LatestRan1); //Trouble shooting
+                    //            alert(LatestRan2); //Trouble shooting
+    
+                    //           document.getElementById("QuestionHistory").innerHTML += "<br>" + IBV;
+    
+                    //            alert(IBV); //Trouble shooting
+    
+                    var msg2 = document.getElementById("infoBar").innerHTML = "You gave the answer " + IBV + "<br>";
+    
+                    if (IBV != LeftNumber * LatestRan2) {
+    
+                        var mesTotal = LeftNumber + " &times " + LatestRan2 + " = " + (LeftNumber * LatestRan2);
+    
+                        document.getElementById("infoBar").innerHTML = msg2 + mesTotal + "<br>Please enter the correct answer to continue...";
+    
+                        document.getElementById("resultBar").innerHTML = "Oops!";
+                        document.getElementById("resultBar").style.backgroundColor = "#FFB6C1";
+    
+                        //--Background flashRedfor incorrect answer
+    
+                        let flashDiv = document.getElementById('maindiv');
+    
+                        function mainDivflashRed() {
+                            flashDiv.classList.add('flashRed');
+                        }
+    
+                        mainDivflashRed();
+    
+                        setTimeout(function() {
+                            flashDiv.classList.remove('flashRed');
+                        }, 200);
+    
+                        //--End flashRed for incorrect answer
+    
+                        errors++;
+    
+                        document.getElementById("errorBar").innerHTML = "Errors this session: " + errors;
+    
+                        document.getElementById("inputBox").value = null;
+    
+                        calculatePercentage();
+                    } else {
+    
+                        score++;
+    
+                        document.getElementById("scoreBar").innerHTML = "Correct answers this session: " + score;
+    
+                        document.getElementById("resultBar").innerHTML = "Well Done";
+                        document.getElementById("resultBar").style.backgroundColor = "lightgreen";
+    
+                        //--Background flashGreen for correct answer
+    
+                        let flashDiv = document.getElementById('maindiv');
+    
+                        function mainDivflashGreen() {
+                            flashDiv.classList.add('flashGreen');
+                        }
+    
+                        mainDivflashGreen();
+    
+                        setTimeout(function() {
+                            flashDiv.classList.remove('flashGreen');
+                        }, 200);
+    
+                        //--End flashGreen for correct answer
+    
+                        document.getElementById("inputBox").value = null;
+    
+                        GetRanNum();
+                        //				getfocus();
+    
+                        calculatePercentage();
+    
+                    }
+    
+                    function calculatePercentage() {
+    
+                        var percentage = parseFloat((score / (score + errors)) * 100).toFixed(2);
+                        //			alert(percentage +"%");
+                        document.getElementById("percentBar").innerHTML = percentage + "%";
+                    }
+    
+                }
+            }
+    
+        </script>
+    </body>
+    
+    </html>
+    
